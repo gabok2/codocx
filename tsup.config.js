@@ -1,6 +1,6 @@
 export default {
     entryPoints: ["src/index.ts"],
-    format: ["cjs", "esm"],
+    format: ["esm"],
     outDir: "dist",
     minify: true,
     sourcemap: true,

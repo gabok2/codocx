@@ -2,7 +2,7 @@ import fs from "fs";
 
 import * as Const from "../constants/index.ts";
 import { TreeItemFlatted } from "../types/index.ts";
-import { getPromptResult } from "../utils/ai.ts";
+import { getPromptResult } from "../utils/ollama.ts";
 
 type Item = TreeItemFlatted;
 

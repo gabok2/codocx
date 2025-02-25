@@ -1,7 +1,7 @@
 import { spinner } from "@clack/prompts";
 import { OLLAMA_CONNECTION_ERROR } from "../constants/errors";
 
-export async function configApiKeyEnv() {
+export async function configOllamaConnection() {
     const loading = spinner();
     loading.start("Verificando conexão com o Ollama...");
 

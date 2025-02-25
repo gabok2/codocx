@@ -10,36 +10,67 @@ export async function generateDocs(flattedTree: TreeItemFlatted[]) {
     const loading = spinner();
     const generation = createGenerationProgressController(flattedTree);
 
+    console.log(chalk.blue("\n📋 Iniciando geração de documentação"));
+    console.log(
+        chalk.dim("Total de arquivos:"),
+        chalk.cyan(flattedTree.length)
+    );
+    console.log(chalk.dim("Arquivos ignorados:"), chalk.yellow("9"));
+    console.log("\n" + "─".repeat(50) + "\n");
+
     for (const item of flattedTree) {
-        loading.start(`Gerando documentação para ${chalk.cyan(item.path)}`);
+        loading.start(
+            `${chalk.blue("🔄")} Gerando documentação para ${chalk.cyan(
+                item.path
+            )}`
+        );
 
         try {
             const doc = await generateDoc(item, flattedTree);
             await saveDocForFile(item.path, doc);
 
-            loading.stop(`Documentação gerada para ${chalk.cyan(item.path)}`);
+            loading.stop(
+                `${chalk.green("✓")} Documentação gerada para ${chalk.cyan(
+                    item.path
+                )}`
+            );
             generation.succeed(item);
         } catch (error) {
+            let errorMessage =
+                error instanceof Error ? error.message : String(error);
+            const errorDetails = {
+                file: item.path,
+                error: errorMessage,
+                timestamp: new Date().toISOString(),
+            };
+
             loading.stop(
-                `Erro ao gerar documentação de ${chalk.cyan(
+                `\n${chalk.red("✖")} Erro ao gerar documentação de ${chalk.cyan(
                     item.path
-                )}: ${chalk.red(error)}`
+                )}:\n` + `${chalk.red("→")} ${errorMessage}\n`
             );
-            generation.failed(item);
+            generation.failed(item, errorDetails);
         }
 
         await generation.logProgress();
     }
 }
 
+interface ErrorDetails {
+    file: string;
+    error: string;
+    timestamp: string;
+}
+
 function createGenerationProgressController(flattedTree: TreeItemFlatted[]) {
     const progress = {
-        succeed: [],
-        failed: [],
+        succeed: [] as TreeItemFlatted[],
+        failed: [] as Array<{ item: TreeItemFlatted; details: ErrorDetails }>,
     };
 
     return {
-        failed: (item: TreeItemFlatted) => progress.failed.push(item),
+        failed: (item: TreeItemFlatted, details: ErrorDetails) =>
+            progress.failed.push({ item, details }),
         succeed: (item: TreeItemFlatted) => progress.succeed.push(item),
         logProgress: async () => {
             await writeFile(
@@ -56,6 +87,7 @@ function createGenerationProgressController(flattedTree: TreeItemFlatted[]) {
 
                         data: {
                             failed: progress.failed,
+                            succeeded: progress.succeed,
                         },
                     },
                     null,

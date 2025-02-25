@@ -21,6 +21,7 @@ export async function getTree(dirPath: string) {
 
     loading.stop(`Analise concluída de ${chalk.cyan(dirPath)}`);
 
+    // Estatísticas gerais
     log.message(
         `${chalk.cyan(
             flattedTree.length
@@ -31,6 +32,38 @@ export async function getTree(dirPath: string) {
         )} documentos que vão ser gerados`
     );
 
+    // Estrutura do projeto em árvore
+    log.message("\n📂 Estrutura do projeto:");
+
+    const printTree = (items: TreeItem[], prefix = "", isLastChild = true) => {
+        items.forEach((item, index) => {
+            const isLast = index === items.length - 1;
+            const icon = item.type === "directory" ? "📁" : "📄";
+            const itemColor =
+                item.type === "directory" ? chalk.blue : chalk.cyan;
+            const marker = isLast ? "└── " : "├── ";
+            const line = `${prefix}${marker}${icon} ${itemColor(item.name)}`;
+
+            log.message(line);
+
+            if (item.type === "directory" && item.children?.length) {
+                const newPrefix = prefix + (isLast ? "    " : "│   ");
+                printTree(item.children, newPrefix, isLast);
+            }
+        });
+    };
+
+    printTree(tree);
+
+    // Lista de arquivos ignorados
+    if (ignored.length > 0) {
+        log.message("\n❌ Arquivos ignorados:");
+        ignored.forEach((ignoredPath) => {
+            log.message(`  ${chalk.red(ignoredPath)}`);
+        });
+    }
+
+    log.message("\n");
     return { items: tree, flattedTree };
 }
 

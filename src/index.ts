@@ -2,7 +2,15 @@
 
 import { Command } from "commander";
 
-import pkg from "../package.json" assert { type: "json" };
+import { readFileSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const pkg = JSON.parse(
+    readFileSync(join(__dirname, "../package.json"), "utf8")
+);
 import { withErrorCatcher } from "./middlewares/errorCatcher.ts";
 import { main } from "./commands/main.ts";
 

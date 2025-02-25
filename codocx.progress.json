@@ -1,0 +1,41 @@
+{
+    "total": 35,
+    "succeed": 5,
+    "failed": 0,
+    "pending": 30,
+    "data": {
+        "failed": [],
+        "succeeded": [
+            {
+                "type": "file",
+                "name": ".codocxignore",
+                "path": ".codocxignore",
+                "fullPath": "C:\\Users\\gabok\\OneDrive\\Área de Trabalho\\codocx\\.codocxignore"
+            },
+            {
+                "type": "file",
+                "name": "package.json",
+                "path": "package.json",
+                "fullPath": "C:\\Users\\gabok\\OneDrive\\Área de Trabalho\\codocx\\package.json"
+            },
+            {
+                "type": "file",
+                "name": "package-lock.json",
+                "path": "package-lock.json",
+                "fullPath": "C:\\Users\\gabok\\OneDrive\\Área de Trabalho\\codocx\\package-lock.json"
+            },
+            {
+                "type": "file",
+                "name": "README.md",
+                "path": "README.md",
+                "fullPath": "C:\\Users\\gabok\\OneDrive\\Área de Trabalho\\codocx\\README.md"
+            },
+            {
+                "type": "file",
+                "name": "tsup.config.js",
+                "path": "tsup.config.js",
+                "fullPath": "C:\\Users\\gabok\\OneDrive\\Área de Trabalho\\codocx\\tsup.config.js"
+            }
+        ]
+    }
+}
