@@ -7,14 +7,20 @@ import { generateIntroduction } from "./actions/generateIntroduction.ts";
 import { generateDocs } from "./actions/generateDocs.ts";
 
 import { projectContext } from "../utils/projectContext.ts";
-import { configOllamaConnection } from "../helpers/validateOllamaConnection.ts";
+import { providerContext } from "../utils/providerContext.ts";
+import { configConnection } from "../helpers/validateConnection.ts";
+import { selectProvider } from "../utils/providerSelector.ts";
 
 interface CommandOptions {
     Path: string;
 }
 
 export async function main(options: CommandOptions, command: Command) {
-    await configOllamaConnection();
+    // Configura o provider selecionado
+    providerContext.setProvider(await selectProvider());
+
+    // Testa a conexão com o provider selecionado
+    await configConnection();
 
     const targetPath = options.Path || path.resolve();
     projectContext.setProjectPath(targetPath);

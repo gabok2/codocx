@@ -8,7 +8,9 @@ import {
     SYSTEM_PROMPT,
     TREE_CONTEXT_PROMPT,
 } from "../../constants/index.ts";
-import { createPromptAbility } from "../../utils/ollama.ts";
+import { createPromptAbility } from "../../utils/ai.ts";
+import { LLMProviderType } from "../../utils/llm";
+import { providerContext } from "../../utils/providerContext.ts";
 import { saveDocForFile } from "../../helpers/saveDocForFile.ts";
 
 export async function generateIntroduction(itemsList: TreeItemFlatted[]) {
@@ -41,7 +43,10 @@ export async function generateIntroduction(itemsList: TreeItemFlatted[]) {
             : "not found";
 
         loading.stop(`${chalk.green("✓")} README.md carregado`);
-        loading.start(`${chalk.blue("🤖")} Gerando introdução com Ollama...`);
+        const provider = providerContext.getProvider();
+        loading.start(
+            `${chalk.blue("🤖")} Gerando introdução com ${provider}...`
+        );
 
         console.log(chalk.dim("\nPreparando prompt com:"));
         console.log(chalk.dim("- Estrutura do projeto"));
@@ -58,9 +63,10 @@ export async function generateIntroduction(itemsList: TreeItemFlatted[]) {
             "Introdução (Não é necessário envolver a resposta com crases '```'):",
         ].join("\n");
 
-        const { text } = await createPromptAbility(SYSTEM_PROMPT).getResult(
-            prompt
-        );
+        const { text } = await createPromptAbility(
+            SYSTEM_PROMPT,
+            provider
+        ).getResult(prompt);
 
         if (!text) {
             throw new Error("Resposta vazia ao gerar introdução");
