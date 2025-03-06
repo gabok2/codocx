@@ -3,6 +3,7 @@ import fs from "fs";
 import * as Const from "../constants/index.ts";
 import { TreeItemFlatted } from "../types/index.ts";
 import { getPromptResult } from "../utils/ai.ts";
+import { providerContext } from "../utils/providerContext.ts";
 
 type Item = TreeItemFlatted;
 
@@ -26,7 +27,8 @@ export async function generateDoc(item: Item, tree: Item[]) {
         "Documentação (Não é necessário envolver a resposta dentro de crases '```):",
     ].join("\n");
 
-    const { text } = await getPromptResult(prompt);
+    const provider = providerContext.getProvider();
+    const { text } = await getPromptResult(prompt, provider);
 
     return text;
 }

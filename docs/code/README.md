@@ -1,3 +1,9 @@
+```
+---
+title: README.md - Codocx
+description: A documentação para a ferramenta CLI Codocx, que automatiza a geração de documentação de software.
+---
+
 # Codocx
 
 Codocx é uma ferramenta de linha de comando (CLI) simples e eficiente para automatizar a geração de documentação de qualquer projeto de software, independentemente da linguagem de programação ou stack tecnológica utilizada.
@@ -20,13 +26,13 @@ A CLI do Codocx foi projetada para ser extremamente fácil de usar, permitindo a
 
 2. **Gere a documentação:**
 
-    Navegue até o diretório do seu projeto e execute:
+   Navegue até o diretório do seu projeto e execute:
 
     ```bash
     codocx -p <DIR_PROJECT>
     ```
 
-    Você pode substituir `<DIR_PROJECT>` pelo caminho do diretório do projeto. Se não fornecer nenhum caminho, a CLI usará o diretório atual.
+   Você pode substituir `<DIR_PROJECT>` pelo caminho do diretório do projeto. Se não fornecer nenhum caminho, a CLI usará o diretório atual.
 
 ### Ignorando Arquivos
 
@@ -36,17 +42,19 @@ Caso queira excluir determinados arquivos ou diretórios da geração da documen
 
 Antes de começar, certifique-se de que sua máquina atenda aos seguintes requisitos:
 
--   Node.js (versão 14 ou superior)
--   npm (gerenciador de pacotes do Node.js)
--   Ollama (para processamento de linguagem natural local)
+- Node.js (versão 14 ou superior)
+- npm (gerenciador de pacotes do Node.js)
+- Ollama (para processamento de linguagem natural local)
 
 ### Configuração do Ollama
 
 1. Instale o Ollama seguindo as instruções em [https://ollama.ai/](https://ollama.ai/)
-2. Baixe o modelo Qwen 2.5 Coder:
+2. Baixe o modelo Phi-2:
+
     ```bash
-    ollama pull qwen2.5-coder
+    ollama pull phi4
     ```
+
 3. Verifique se o serviço Ollama está rodando (deve estar disponível em http://localhost:11434)
 
 ## Como Rodar o Projeto Manualmente
@@ -106,3 +114,6 @@ Este projeto está licenciado sob a Licença MIT. Consulte o arquivo [LICENSE](.
 ## Notas Finais
 
 Todos os commits deste repositório foram gerados utilizando o [GiteAI](https://giteai.dev), uma ferramenta que automatiza a criação de mensagens de commit, garantindo consistência e clareza no histórico do projeto.
+```
+
+Esta versão da documentação fornece uma visão abrangente do uso e configuração do Codocx, além de detalhes sobre como contribuir para o projeto.
