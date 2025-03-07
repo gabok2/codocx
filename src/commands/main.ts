@@ -5,6 +5,7 @@ import chalk from "chalk";
 import { getTree } from "../helpers/getTree.ts";
 import { generateIntroduction } from "./actions/generateIntroduction.ts";
 import { generateDocs } from "./actions/generateDocs.ts";
+import { generateGitDocs } from "./actions/generateGitDocs.ts";
 
 import { projectContext } from "../utils/projectContext.ts";
 import { providerContext } from "../utils/providerContext.ts";
@@ -13,6 +14,7 @@ import { selectProvider } from "../utils/providerSelector.ts";
 
 interface CommandOptions {
     Path: string;
+    git?: boolean;
 }
 
 export async function main(options: CommandOptions, command: Command) {
@@ -34,8 +36,19 @@ export async function main(options: CommandOptions, command: Command) {
         chalk.cyan(path.join(targetPath, "docs"))
     );
 
-    const { flattedTree } = await getTree(targetPath);
-
-    await generateIntroduction(flattedTree);
-    await generateDocs(flattedTree);
+    if (options.git) {
+        console.log(
+            chalk.blue(
+                "\n🔍 Modo Git: Documentando apenas alterações do último commit"
+            )
+        );
+        await generateGitDocs();
+    } else {
+        console.log(
+            chalk.blue("\n🔄 Modo Padrão: Documentando todo o projeto")
+        );
+        const { flattedTree } = await getTree(targetPath);
+        await generateIntroduction(flattedTree);
+        await generateDocs(flattedTree);
+    }
 }

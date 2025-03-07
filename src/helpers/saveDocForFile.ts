@@ -15,7 +15,12 @@ export async function saveDocForFile(
     content = content.trim();
 
     if (!fs.existsSync(outputDir)) {
-        console.log(chalk.dim("📁 Criando diretório:"), chalk.gray(outputDir));
+        console.log(
+            chalk.dim("📁 Criando estrutura em:"),
+            chalk.gray(
+                path.relative(projectContext.getProjectPath(), outputDir)
+            )
+        );
         await fs.promises.mkdir(outputDir, { recursive: true });
     }
 
@@ -24,7 +29,6 @@ export async function saveDocForFile(
     }
 
     const targetPath = path.join(outputDir, fileName);
-
     await fs.promises.writeFile(targetPath, content, "utf8");
 
     console.log(
@@ -36,8 +40,14 @@ export async function saveDocForFile(
 }
 
 function getDocPath(filePath: string) {
-    const fileDir = path.dirname(filePath);
-    const fileName = path.basename(filePath, path.extname(filePath)) + ".md";
+    // Garante que o caminho é relativo
+    const relativePath = path.isAbsolute(filePath)
+        ? path.relative(projectContext.getProjectPath(), filePath)
+        : filePath;
+
+    const fileDir = path.dirname(relativePath);
+    const fileName =
+        path.basename(relativePath, path.extname(relativePath)) + ".md";
 
     const outputDir = path.join(
         projectContext.getProjectPath(),
@@ -46,8 +56,10 @@ function getDocPath(filePath: string) {
         fileDir
     );
 
+    const docPath = path.join(outputDir, fileName);
+
     return {
-        path: path.join(outputDir, fileName),
+        path: docPath,
         outputDir,
         fileDir,
         fileName,

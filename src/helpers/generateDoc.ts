@@ -7,11 +7,15 @@ import { providerContext } from "../utils/providerContext.ts";
 
 type Item = TreeItemFlatted;
 
-export async function generateDoc(item: Item, tree: Item[]) {
-    let content = "";
+export async function generateDoc(
+    item: Item,
+    tree: Item[],
+    fileContent?: string
+) {
+    let content = fileContent;
     const context = tree.map((item) => item.path);
 
-    if (item.type === "file") {
+    if (!content && item.type === "file") {
         content = await fs.promises.readFile(item.fullPath, "utf-8");
     }
 
