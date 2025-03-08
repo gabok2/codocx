@@ -28,6 +28,14 @@ A CLI do Codocx foi projetada para ser extremamente fácil de usar, permitindo a
 
     Você pode substituir `<DIR_PROJECT>` pelo caminho do diretório do projeto. Se não fornecer nenhum caminho, a CLI usará o diretório atual.
 
+    Para gerar documentação apenas dos arquivos alterados no último commit:
+
+    ```bash
+    codocx -p <DIR_PROJECT> --git
+    ```
+
+    Isso é útil quando você quer atualizar apenas a documentação dos arquivos que foram modificados recentemente.
+
 ### Ignorando Arquivos
 
 Caso queira excluir determinados arquivos ou diretórios da geração da documentação, você pode configurar isso editando o arquivo `src/constants/index.ts`.

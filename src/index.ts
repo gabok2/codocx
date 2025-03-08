@@ -19,7 +19,11 @@ const program = new Command();
 program
     .version(pkg.version, "-v, --version", "Exibir a versão atual da CLI")
     .name("codocx")
-    .option("-p, ---path <path>")
+    .option("-p, ---path <path>", "Caminho do projeto")
+    .option(
+        "-g, --git",
+        "Gerar documentação apenas para arquivos alterados no último commit"
+    )
     .action(withErrorCatcher(main));
 
 program.parse(process.argv);
