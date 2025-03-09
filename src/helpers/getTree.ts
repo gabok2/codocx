@@ -14,7 +14,7 @@ export async function getTree(dirPath: string) {
         `Analisando a árvore de arquivos e diretórios de ${chalk.cyan(dirPath)}`
     );
 
-    const ignorePatterns = await loadIgnorePatterns();
+    const ignorePatterns = await loadIgnorePatterns(dirPath);
     const { tree, ignored } = await getTreeFromDirPath(ignorePatterns, dirPath);
 
     const flattedTree = flattenTree(tree);

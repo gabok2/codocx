@@ -1,10 +1,12 @@
 import chalk from "chalk";
 import { spinner } from "@clack/prompts";
 import { writeFile } from "fs/promises";
+import path from "path";
 
 import { TreeItemFlatted } from "../../types/index.ts";
 import { generateDoc } from "../../helpers/generateDoc.ts";
 import { saveDocForFile } from "../../helpers/saveDocForFile.ts";
+import { projectContext } from "../../utils/projectContext.ts";
 
 export async function generateDocs(flattedTree: TreeItemFlatted[]) {
     const loading = spinner();
@@ -72,9 +74,15 @@ function createGenerationProgressController(flattedTree: TreeItemFlatted[]) {
         failed: (item: TreeItemFlatted, details: ErrorDetails) =>
             progress.failed.push({ item, details }),
         succeed: (item: TreeItemFlatted) => progress.succeed.push(item),
+        // Versão corrigida (usando o caminho do projeto)
         logProgress: async () => {
+            const progressPath = path.join(
+                projectContext.getProjectPath(),
+                "codocx.progress.json"
+            );
+
             await writeFile(
-                "./codocx.progress.json",
+                progressPath,
                 JSON.stringify(
                     {
                         total: flattedTree.length,

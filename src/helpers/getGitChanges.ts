@@ -23,7 +23,7 @@ export async function getGitChanges(
     const changesWithIgnoreStatus = await Promise.all(
         commitInfo.changes.map(async (change) => {
             // Carrega padrões de ignore
-            const ignorePatterns = await loadIgnorePatterns();
+            const ignorePatterns = await loadIgnorePatterns(projectPath);
             const relativePath = change.path;
 
             return {

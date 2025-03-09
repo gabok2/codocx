@@ -103,6 +103,12 @@ LICENSE
 .editorconfig
 .eslintignore
 .eslintrc.*
+next-env.d.ts
+postcss.config.js
+postcss.config.ts
+next.config.js
+next.config.mjs
+README.md
 
 # Arquivos de mídia, pacotes e compressão
 *.jpg

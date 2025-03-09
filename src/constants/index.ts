@@ -82,6 +82,7 @@ generated
 out-tsc
 typings
 tsconfig.tsbuildinfo
+README.md
 
 # Arquivos específicos para ignorar
 .DS_Store
@@ -103,6 +104,11 @@ LICENSE
 .editorconfig
 .eslintignore
 .eslintrc.*
+next-env.d.ts
+postcss.config.js
+postcss.config.ts
+next.config.js
+next.config.mjs
 
 # Arquivos de mídia, pacotes e compressão
 *.jpg

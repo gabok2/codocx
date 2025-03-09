@@ -3,13 +3,17 @@ import { promises as fsPromises } from "fs";
 import path from "path";
 import { DEFAULT_IGNORE } from "../constants/index.ts";
 
-const ignoreFilePath = path.join(path.resolve(), ".codocxignore");
+export async function loadIgnorePatterns(
+    projectPath?: string,
+    ignoreFileContent?: string
+) {
+    const ignoreFilePath = projectPath
+        ? path.join(projectPath, ".codocxignore")
+        : path.join(path.resolve(), ".codocxignore");
 
-export async function loadIgnorePatterns(ignoreFileContent?: string) {
     if (!fs.existsSync(ignoreFilePath)) {
         await fsPromises.writeFile(ignoreFilePath, DEFAULT_IGNORE, "utf8");
-
-        return await loadIgnorePatterns(DEFAULT_IGNORE);
+        return await loadIgnorePatterns(projectPath, DEFAULT_IGNORE);
     }
 
     ignoreFileContent = ignoreFileContent
